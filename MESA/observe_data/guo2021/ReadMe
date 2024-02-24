@@ -1,0 +1,138 @@
+J/ApJS/257/54     Early-type star param. from LAMOST LRS & MRS     (Guo+, 2021)
+================================================================================
+The early-type stars from the LAMOST survey: atmospheric parameters.
+    Guo Y., Zhang B., Liu C., Li J., Li J., Wang L., Liu Z.,
+    Hou Y.-H., Han Z., Chen X.
+   <Astrophys. J. Suppl. Ser., 257, 54 (2021)>
+   =2021ApJS..257...54G
+================================================================================
+ADC_Keywords: Abundances; Effective temperatures; Stars, early-type; Surveys;
+              Spectra, optical
+Keywords: Early-type stars ; Astronomy data analysis ; Surveys ; Catalogs
+
+Abstract:
+    Massive stars play key roles in many astrophysical processes. Deriving
+    the atmospheric parameters of massive stars is important to
+    understanding their physical properties, and thus the atmospheric
+    parameters are key inputs to trace the evolution of massive stars.
+    Here we report our work on adopting the data-driven technique called
+    stellar label machine (SLAM) with the nonlocal thermal equilibrium
+    TLUSTY synthetic spectra as the training data set to estimate the
+    stellar parameters of Large Sky Area Multi-Object Fiber Spectroscopic
+    Telescope (LAMOST) optical spectra for early-type stars. We apply two
+    consistency tests to verify this machine-learning method and compare
+    stellar labels given by SLAM with the labels in the literature for
+    several objects having high-resolution spectra. We provide the stellar
+    labels of effective temperature (Teff), surface gravity (logg),
+    metallicity ([M/H]), and projected rotational velocity (vsini) for
+    3931 and 578 early-type stars from the LAMOST low-resolution survey
+    (LRS) and medium-resolution survey (MRS), respectively. To estimate
+    the average statistical uncertainties of our results, we calculated
+    the standard deviation between the predicted stellar label and the
+    prelabeled published values from the high-resolution spectra. The
+    uncertainties of the four parameters are {sigma}(Teff)=2185K,
+    {sigma}(logg)=0.29dex, and {sigma}(vsini)=11km/s for MRS, and
+    {sigma}(Teff)=1642K, {sigma}(logg)=0.25dex, and {sigma}(vsini)=42km/s
+    for LRS spectra, respectively. We note that the parameters of Teff,
+    logg, and [M/H] can be better constrained using LRS spectra than using
+    MRS spectra, most likely due to their broad wavelength coverage, while
+    vsini is constrained better by MRS spectra than by LRS spectra,
+    probably due to the relatively accurate line profiles of MRS spectra.
+
+Description:
+    LAMOST is a 4m quasi-meridian reflecting Schmidt telescope located at
+    the Xinlong station of the National Astronomical Observatory. Both a
+    low-resolution spectrograph (LRS; R~1800 with wavelength coverage
+    of 3690~9100{AA}) and a medium-resolution spectrograph (MRS; R~7500
+    blue arm: 4950~5350{aa} and red arm 6300~6800{AA}) were installed on
+    the telescope.
+    LAMOST finished the first observing campaign from 2011 to 2018 (known
+    as LAMOST I). The second active survey program (LAMOST II) began in
+    2017 September.
+
+    Liu+ (2019, J/ApJS/241/32) identified 16032 early-type stars through
+    measuring the equivalent widths of several absorption line profiles
+    using low-resolution spectra from the LAMOST low-resolution survey
+    (LRS) database. Guo+ (2022RAA....22b5009G) used the spectra from the
+    LAMOST MRS database to investigate the multiplicity properties of
+    early-type stars (Paper I).
+
+    In this study, we adopt all of the identified O- and B-type stars from
+    Liu+ (2019, J/ApJS/241/32) and Paper I to derive the stellar labels of
+    their spectra by applying the Stellar LAbel Machine (SLAM;
+    Zhang+ 2020ApJS..246....9Z and 2020RAA....20...51Z).
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName   Lrecl  Records  Explanations
+--------------------------------------------------------------------------------
+ReadMe         80        .  This file
+table1.dat     55    22292  The predicted stellar labels of 16032 LAMOST-LRS
+                             (Liu+ 2019, J/ApJS/241/32) early-type stars
+table2.dat     67     9287  The predicted stellar parameters of 9238 LAMOST-MRS
+                             (Guo+ 2022RAA....22b5009G) early-type stars
+--------------------------------------------------------------------------------
+
+See also:
+ V/153 : LAMOST DR4 catalogs (Luo+, 2018)
+ V/164 : LAMOST DR5 catalogs (Luo+, 2019)
+ J/A+AS/139/231 : Early-type stars towards the Galactic Centre (Dufton+, 1999)
+ J/A+A/471/625  : VLT-FLAMES survey of massive stars (Trundle+, 2007)
+ J/A+A/496/841  : VLT-FLAMES survey of massive stars (Hunter+, 2009)
+ J/A+A/518/A1   : Galactic massive stars with AstraLux (Maiz Apellaniz, 2010)
+ J/A+A/539/A143 : Nearby B-stars stellar parameters & abundances (Nieva+, 2012)
+ J/ApJ/808/16   : Cannon: a new approach to determine abundances (Ness+, 2015)
+ J/other/RAA/16.138 : LAMOST cat. of early-type emission-line stars (Hou+, 2016)
+ J/ApJS/241/32  : OB stars from the LAMOST DR5 spectra (Liu+, 2019)
+ J/ApJS/253/22  : Ks absolute magnitudes from LAMOST for OB stars (Xiang+, 2021)
+ http://dr7.lamost.org/ : LAMOST DR7 home page
+
+Byte-by-byte Description of file: table1.dat
+--------------------------------------------------------------------------------
+  Bytes Format Units   Label    Explanations
+--------------------------------------------------------------------------------
+  1-  9 I9     ---     ObsID    [215136/585213175] Star identifier
+                                 from LAMOST DR5
+ 11- 18 F8.4   deg     RAdeg    Right Ascension in decimal degrees (J2000)
+ 20- 26 F7.4   deg     DEdeg    [-9.2/61] Declination in decimal degrees (J2000)
+ 28- 32 I5     ---     SNR      [-9999/999] Signal-to-Noise
+ 34- 39 I6     K       Teff     [-36654/69857] Effective temperature
+ 41- 43 F3.1   [cm/s2] log(g)   [1/6.7] log surface gravity
+ 45- 49 F5.2   [Sun]   [M/H]    [-2.6/1.1] Metallicity
+ 51- 53 I3     km/s    vsin(i)  [0/497] Projected rotational velocity
+     55 A1     ---     Flag     Star flag (1)
+--------------------------------------------------------------------------------
+Note (1): Flag as follows:
+    I = A star with its parameters set by the training set.
+    O = A star whose's parameters are extrapolated from the SLAM
+        (Zhang+ 2020ApJS..246....9Z and 2020RAA....20...51Z).
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table2.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label    Explanations
+--------------------------------------------------------------------------------
+   1-  9 I9     ---     ObsID    [589004107/747815206] Star identifier
+                                  from LAMOST DR7
+  11- 18 F8.4   deg     RAdeg    Right Ascension (J2000)
+  20- 26 F7.4   deg     DEdeg    [-9.9/77.1] Declination (J2000)
+  28- 37 F10.4  d       MJD      [58024.8/58649.2] Modified Julian Date of
+                                  the observation
+  39- 41 I3     ---     SNR-R    [2/767] Signal-to-Noise in Red arm
+  43- 45 I3     ---     SNR-B    [2/728] Signal-to-Noise in Blue arm
+  47- 51 I5     K       Teff     [7081/58781] Effective temperature
+  53- 55 F3.1   [cm/s2] log(g)   [1.5/5.4] log surface gravity
+  57- 61 F5.2   [Sun]   [M/H]    [-1.36/0.65] Metallicity
+  63- 65 I3     km/s    vsin(i)  [0/312] Projected rotational velocity
+      67 A1     ---     Flag     Star flag (1)
+--------------------------------------------------------------------------------
+Note (1): Flag as follows:
+    I = A star with its parameters set by the training set.
+    O = An early type star from the LAMOST-MRS database.
+--------------------------------------------------------------------------------
+
+History:
+    From electronic version of the journal
+
+================================================================================
+(End)                    Prepared by [AAS], Emmanuelle Perret [CDS]  08-Mar-2022

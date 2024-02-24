@@ -1,0 +1,106 @@
+J/ApJS/241/32         OB stars from the LAMOST DR5 spectra         (Liu+, 2019)
+================================================================================
+A catalog of OB stars from LAMOST spectroscopic survey.
+    Liu Z., Cui W., Liu C., Huang Y., Zhao G., Zhang Bo
+   <Astrophys. J. Suppl. Ser., 241, 32 (2019)>
+   =2019ApJS..241...32L
+================================================================================
+ADC_Keywords: Stars, OB; Spectral types; Spectra, optical; Surveys
+Keywords: catalogs ; stars: early-type ; stars: fundamental parameters ; surveys
+
+Abstract:
+    We present 22901 OB spectra of 16032 stars identified from the Large
+    Sky Area Multi-Object Fiber Spectroscopic Telescope data release 5
+    (LAMOST DR5) data set. A larger sample of OB candidates are first
+    selected from the distributions in the spectral line indices' space.
+    Then, all 22901 OB spectra are identified by manual inspection. Based
+    on a subsample validation, we find that the completeness of the OB
+    spectra reaches about 89+/-22% for the stars with spectral types
+    earlier than B7, while around 57+/-16% B8-B9 stars are identified. The
+    smaller completeness for late B stars will lead to the difficulty in
+    discriminating them from A0-A1-type stars. The subclasses of the OB
+    samples are determined using the software package MKCLASS. With a
+    careful validation using 646 subsamples, we find that MKCLASS can give
+    fairly reliable subtypes and luminosity classes for most of the OB
+    stars. The uncertainty of the spectral subtype is around 1 subtype,
+    and the uncertainty of the luminosity class is around 1 level.
+    However, about 40% of the OB stars fail to be assigned to any class by
+    MKCLASS, and a few spectra are significantly misclassified by MKCLASS.
+    This is likely because the template spectra of MKCLASS are selected
+    from nearby stars in the solar neighborhood, while the OB stars in
+    this work are mostly located in the outer disk and may have lower
+    metallicities. The rotation of the OB stars may also be responsible
+    for the misclassifications. Moreover, we find that the spectral and
+    luminosity classes of the OB stars located in the Galactic latitude
+    larger than 20{deg} are substantially different with those located in
+    the latitude smaller than 20{deg}, which may either be due to the
+    observational selection effect or may hint a different origin of the
+    high Galactic latitude OB stars.
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName   Lrecl  Records  Explanations
+--------------------------------------------------------------------------------
+ReadMe         80        .  This file
+table3.dat    113    22901  OB stars identified in LAMOST DR5
+--------------------------------------------------------------------------------
+
+See also:
+ III/195 : Atlas of Optical Spectral Classification OB Stars (Walborn+ 1990)
+ V/125   : Photometry and Spectroscopy for Luminous Stars (Reed 2005)
+ III/274 : Galactic O-Star Spectroscopic Survey (GOSSS) (Sota+, 2014)
+ I/345   : Gaia DR2 (Gaia Collaboration, 2018)
+ V/153   : LAMOST DR4 catalogs (Luo+, 2018)
+ V/164   : LAMOST DR5 catalogs (Luo+, 2019)
+ J/A+AS/96/269     : Stellar Models from 0.8 to 120 Msolar (Schaller+, 1992)
+ J/ApJS/111/377    : H{gamma} & H{delta} absorption features (Worthey+ 1997)
+ J/AJ/117/981      : Estimation of stellar metal abundance. II. (Beers+, 1999)
+ J/A+A/437/467     : VLT-FLAMES survey of massive stars (Evans+, 2005)
+ J/AJ/137/3358     : Speckle interferometry of massive stars (Mason+, 2009)
+ J/ApJ/718/683     : The edge of the young Galactic disk (Carraro+, 2010)
+ J/A+A/537/A146    : Stellar models with rotation. 0.8<M<120. (Ekstrom+, 2012)
+ J/A+A/550/A107    : RV catalogue of O stars in 30 Doradus (Sana+, 2013)
+ J/ApJS/220/19     : LAMOST obs. in the Kepler field. I. (De Cat+, 2015)
+ J/AJ/151/13       : LAMOST-Kepler MKCLASS spectral classification (Gray+, 2016)
+ J/ApJS/226/1      : Carbon stars from LAMOST DR2 data (Ji+, 2016)
+ J/AJ/153/99       : Gal. outer disk: a field toward Tombaugh 1 (Carraro+, 2017)
+ J/ApJS/232/16     : Mira stars discovered in LAMOST DR4 (Yao+, 2017)
+ J/other/RAA/18.68 : Cataclysmic variables from LAMOST DR3 (Han+, 2018)
+ J/ApJS/234/31     : Carbon stars from LAMOST using machine learning (Li+, 2018)
+ J/ApJ/855/68      : Massive stars in SDSS-IV/APOGEE SURVEY (Roman-Lopes+, 2018)
+ J/A+A/616/L15     : Parallaxes and Proper Motions of OB stars (Xu+, 2018)
+
+Byte-by-byte Description of file: table3.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units Label     Explanations
+--------------------------------------------------------------------------------
+   1-  9 I9     ---   ObsID     [215136/585213175] Observation identifier
+  11- 22 F12.8  deg   RAdeg     Right Ascension in decimal degrees (J2000)
+  24- 35 F12.8  deg   DEdeg     Right Ascension in decimal degrees (J2000)
+  37- 42 F6.2   ---   S/N       [15/999] Signal to noise ratio at g band
+  44- 48 I5     --- m_ObsID     [1/3073]? ID number of star that was observed
+                                 many times
+  50- 51 I2     ---   Nobs      [2/24]? Number of exposures of star that
+                                 was observed many times
+  53- 68 A16    ---   SSpT      SIMBAD spectral type
+  70- 95 A26    ---   MKSpT     MKCLASS spectral type (1)
+  97-103 A7     ---   SpT       This work spectral/luminosity types
+ 105-113 A9     ---   Comm      This work "peculiar" spectra identified
+--------------------------------------------------------------------------------
+Note (1): We apply MKCLASS, which is an automatic classification package 
+    developed by Gray & Corbally (2014AJ....147...80G), to classify the
+    spectral subtype and luminosity class for the identified OB stars.
+    MKCLASS assigns question marks to 4922 spectra and 89 "Unclassifiable".
+    Moreover, MKCLASS cannot converge to a single type but provides
+    discrepant classifications with different criteria for 4422 spectra.
+    In these cases, MKCLASS outputs flags like "kB8hA9mK0 Eu", which means
+    that the K-line determined spectral type is B8, the hydrogen-line
+    determined type is A9, and the metallic-line classified type is K0.
+    See Section 4 for further explanations.
+--------------------------------------------------------------------------------
+
+History:
+    From electronic version of the journal
+
+================================================================================
+(End)                     Prepared by [AAS], Emmanuelle Perret [CDS] 22-Nov-2019
