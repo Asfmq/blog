@@ -4,7 +4,7 @@ import numpy as np
 from astropy.io import fits
 
 def load_lei():
-    data_lei = fits.open('~/pfiles/fmq/observe_data/lei2023/sd_mass_0p20.fits')
+    data_lei = fits.open('/home/fmq/MESA/work/my/observe_data/lei2023/sd_mass_0p20.fits')
     df = pd.DataFrame(data_lei[1].data)
 
     df['log_he'] = df['loghe'].replace('>', '', regex=True).astype(float)

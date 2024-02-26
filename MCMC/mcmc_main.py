@@ -20,8 +20,8 @@ from src.save_result import plot_corner, plot_chain, save_dat
 
 #先验函数
 def log_prior(p0):
-    star_mass, log_L, radius, age = p0
-    if 0.30 < star_mass < 0.85 and 0 < log_L < 3.5 and 0<radius<1.0 and 0<age<3.714*10**10:
+    core_mass, env_mass, log_L, radius, age = p0
+    if 0.30 < core_mass < 0.85 and 0< env_mass <0.02 and 0 < log_L < 3.5 and 0<radius<1.0 and 0<age<3.714*10**10:
         return 0.0
     return -np.inf
 
@@ -40,11 +40,32 @@ def log_likelihood(p0, method_data, observed_log_Teff, observed_log_Teff_err, ob
         return np.array(intersection_points)
     def chi2_sol(observed, predicted, observed_err):
         return ((observed - predicted) / observed_err) ** 2
-    
-    components = ["star_mass", "log_L", "radius", "star_age"]
+    def find_nearest_numbers(lst, target):
+        lower_numbers = [num for num in lst if num < target]
+        higher_numbers = [num for num in lst if num > target]
+
+        nearest_lower = max(lower_numbers) if lower_numbers else None
+        nearest_higher = min(higher_numbers) if higher_numbers else None
+
+        indices_lower = [i for i, num in enumerate(lst) if num == nearest_lower]
+        indices_higher = [i for i, num in enumerate(lst) if num == nearest_higher]
+
+        return {
+            "nearest_lower": nearest_lower,
+            "indices_lower": indices_lower,
+            "nearest_higher": nearest_higher,
+            "indices_higher": indices_higher
+        }
+
+    components = ["core_mass", "env_mass", "log_L", "radius", "star_age"]
     component = components[0]
     x0 =p0[components.index(component)]
-    interp_indices = np.where(abs(method_data[component]-x0)<0.01)[0]
+    result0 = find_nearest_numbers(method_data[component], x0)
+    component = components[1]
+    x0 =p0[components.index(component)]
+    result1 = find_nearest_numbers(method_data[component], x0)
+    interp_indices = np.union1d(np.intersect1d(result0["indices_higher"],result1["indices_higher"]), np.intersect1d(result0["indices_lower"],result1["indices_lower"]))
+
     method_data0 = method_data.iloc[interp_indices]
     lens = len(interp_indices)
     if lens == 0 :
@@ -53,9 +74,7 @@ def log_likelihood(p0, method_data, observed_log_Teff, observed_log_Teff_err, ob
         chi2_log_Teff = chi2_sol(observed_log_Teff, method_data0['log_Teff'].values, observed_log_Teff_err)
         chi2_log_g = chi2_sol(observed_log_g, method_data0['log_g'].values, observed_log_g_err)
         chi2_log_he = chi2_sol(observed_log_he, method_data0['log_he'].values, observed_log_he_err)
-
-        chi2_mass = chi2_sol(p0[0], method_data0['star_mass'].values, 0.01)
-        chi2_interp = np.amin(chi2_log_Teff + chi2_log_g + chi2_log_he + chi2_mass)
+        chi2_interp = np.amin(chi2_log_Teff + chi2_log_g + chi2_log_he)
     chi2_component = chi2_interp
     for component in ["log_L", "radius", "star_age"]:
         x0=p0[components.index(component)]
@@ -86,8 +105,8 @@ def log_probability(p0, method_data, observed_log_Teff, observed_log_Teff_err, o
 
 def MCMC(observed_data, method_data):
     # 初始化步行者的起始位置
-    initial_guess = [0.45, 1.1, 0.10, 1e7]
-    step = [0.1, 0.5, 0.20, 1e7]
+    initial_guess = [0.45, 0.001, 1.1, 0.10, 1e7]
+    step = [0.1, 0.001, 0.5, 0.20, 1e7]
     # step = [1e-2,1e-1,1e-2,0.1]
     p0 = initial_guess + step * np.random.rand(nwalkers, ndim)
     # p0 =  np.random.randn(nwalkers, ndim) * [np.std(method_data['star_mass']), np.std(method_data['log_L']), np.std(method_data['radius']), np.std(method_data['star_age'])] + [np.mean(method_data['star_mass']), np.mean(method_data['log_L']), np.mean(method_data['radius']), np.mean(method_data['star_age'])]
@@ -144,7 +163,7 @@ data_files = 'lei_smooth.dat'
 # 导入模型
 # path_methods = ["/home/zxlei/pfiles/fmq/sdb/data_hb", "/home/zxlei/pfiles/fmq/sdb/data_wd"]
 # method_data = load_method(path_methods, 'all_data.csv')
-all_method_data = pd.read_csv('/home/zxlei/pfiles/fmq/mcmc/all_data.csv')
+all_method_data = pd.read_csv('/home/fmq/MESA/work/my/MCMC/code/all_data.csv')
 
 # observed_data = load_test()
 # observed_data = pd.read_csv('/home/zxlei/pfiles/fmq/mcmc/test_star.csv').to_dict('records')
@@ -152,7 +171,7 @@ all_method_data = pd.read_csv('/home/zxlei/pfiles/fmq/mcmc/all_data.csv')
 observed_data = load_lei()
 
 nwalkers = 128
-ndim = 4
+ndim = 5
 nsteps = 100
 
 

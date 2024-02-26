@@ -1,0 +1,75 @@
+
+&star_job
+      show_log_description_at_start = .false.
+
+      load_saved_model = .true.
+      load_model_filename = './mod_pre_zahb/pre_ZAHB_6.0-0.00.mod'
+
+      save_model_when_terminate = .true.
+      save_model_filename = './mod_env/ZAHB_6.0-0.0200-0.00.mod'
+      
+      relax_mass_to_remove_H_env = .true.
+      extra_mass_retained_by_remove_H_env = 0.0200
+      lg_max_abs_mdot = -1
+      
+      history_columns_file = 'history_columns.list'
+
+
+      change_initial_net = .true.
+      new_net_name = 'pp_and_cno_extras.net'
+      
+
+/ ! end of star_job namelist
+
+&eos
+
+
+/ ! end of eos namelist
+
+&kap
+      Zbase = 0.00
+
+      kap_file_prefix = 'a09'
+      kap_CO_prefix = 'a09_co'
+      use_Type2_opacities = .true.
+
+/ ! end of kap namelist
+
+&controls
+
+      
+      energy_eqn_option = 'dedt'
+      
+      initial_mass = 6.0
+      initial_z = 0.00
+
+ 
+      mixing_length_alpha = 1.8d0
+      MLT_option = 'Cox'
+
+
+! When to stop
+      max_model_number = 1
+
+
+! output controls
+
+      log_directory = 'LOGS_env'
+      photo_interval = 50
+      profile_interval = 100
+      history_interval = 1
+      terminal_interval = 10
+      write_header_frequency = 10
+
+     
+
+
+      ! limit max_model_number as part of test_suite
+      
+
+/ ! end of controls namelist
+
+&pgstar
+
+
+/
