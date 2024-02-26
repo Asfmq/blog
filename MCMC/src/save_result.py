@@ -11,8 +11,8 @@ def plot_corner(observed_data, sample_path, corner_path, ndim, nsteps, nwalkers)
     samples = samples_chain[:, :, :].reshape((-1, ndim))[int(nsteps/2*nwalkers):]
     # samples = np.load(f'./samples/samples_{nwalkers}_{nsteps}.npy')
     # 使用getdist创建MCSamples对象
-    names = ['Star Mass', 'log_L', 'radius', 'age']
-    labels = ['M', 'log_L', 'radius', 'age']
+    names = ['core Mass', 'env mass' 'log_L', 'radius', 'age']
+    labels = ['core_mass', 'env_mass', 'log_L', 'radius', 'age']
     # samples_gd = MCSamples(samples=samples, names=names, labels=labels)
     samples_gd = getdist.MCSamples(samples=samples, names=names, labels=labels)
     fig = corner.corner(samples, labels=labels,  sharex=True, sharey=True,show_titles=True) 
@@ -27,7 +27,7 @@ def plot_chain(observed_data, sample_path, chian_path, ndim, nsteps, nwalkers):
     samples_chain = np.load(f'{sample_path}/sample_{star_name}.npy')
     # samples_chain = np.load(f'./samples_chain/samples_chain_{nwalkers}_{nsteps}.npy')
     ig, axes = plt.subplots(4, figsize=(10, 7), sharex=True)
-    labels = ['M', 'log_L', 'radius', 'age']
+    labels = ['core_mass', 'env_mass', 'log_L', 'radius', 'age']
     for i in range(ndim):
         ax = axes[i]
         ax.plot(samples_chain[:, :, i], "k", alpha=0.3)
@@ -53,14 +53,15 @@ def save_dat(observed_data, sample_path, data_files, ndim, nsteps, nwalkers):
         return tuple(percentiles)
     
     # 使用字典来存储参数及其索引
-    parameters = {'Star Mass': 0, 'log_L': 1, 'radius': 2, 'age': 3}
+    parameters = {'core_mass': 0, 'env_mass':1, 'log_L': 2, 'radius': 3, 'age': 4}
     
     # 计算参数的统计信息
     parameter_stats = {name: calculate_parameter_statistics(samples, index) for name, index in parameters.items()}
     
     # 解包字典，以便更容易地构建写入的字符串
-    mass_stats, log_L_stats, radius_stats, age_stats = [parameter_stats[name] for name in parameters.keys()]
-
+    core_mass_stats, env_mass_stats, log_L_stats, radius_stats, age_stats = [parameter_stats[name] for name in parameters.keys()]
+    mass_stats = core_mass_stats + env_mass_stats
+    
     mass_lei = observed_data.get('mass_lei', np.nan)
     log_L_lei = observed_data.get('log_L_lei', np.nan)
     radius_lei = observed_data.get('radius_lei', np.nan)
