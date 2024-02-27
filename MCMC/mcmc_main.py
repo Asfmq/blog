@@ -61,21 +61,37 @@ def log_likelihood(p0, method_data, observed_log_Teff, observed_log_Teff_err, ob
     component = components[0]
     x0 =p0[components.index(component)]
     result0 = find_nearest_numbers(method_data[component], x0)
+
+
     component = components[1]
     x0 =p0[components.index(component)]
     result1 = find_nearest_numbers(method_data[component], x0)
-    interp_indices = np.union1d(np.intersect1d(result0["indices_higher"],result1["indices_higher"]), np.intersect1d(result0["indices_lower"],result1["indices_lower"]))
-
-    method_data0 = method_data.iloc[interp_indices]
-    lens = len(interp_indices)
-    if lens == 0 :
+    if result1["nearest_higher"] is None or result1["nearest_lower"] is None or result0["nearest_higher"] is None or result0["nearest_lower"] is None:
         chi2_interp = np.inf
     else:
+        ratios0 = (x0 - result0["nearest_lower"])/(result0["nearest_higher"] - result0["nearest_lower"])
+        ratios1 = (x0 - result1["nearest_lower"])/(result1["nearest_higher"] - result1["nearest_lower"])
+
+        interp_indices_higher = np.union1d(result0["indices_higher"],result1["indices_higher"])
+        method_data0 = method_data.iloc[interp_indices_higher]
+
         chi2_log_Teff = chi2_sol(observed_log_Teff, method_data0['log_Teff'].values, observed_log_Teff_err)
         chi2_log_g = chi2_sol(observed_log_g, method_data0['log_g'].values, observed_log_g_err)
         chi2_log_he = chi2_sol(observed_log_he, method_data0['log_he'].values, observed_log_he_err)
-        chi2_interp = np.amin(chi2_log_Teff + chi2_log_g + chi2_log_he)
+        chi2_interp_higher = np.amin(chi2_log_Teff + chi2_log_g + chi2_log_he)
+
+
+        interp_indices_lower = np.union1d(result0["indices_lower"],result1["indices_lower"])
+        method_data0 = method_data.iloc[interp_indices_lower]
+
+        chi2_log_Teff = chi2_sol(observed_log_Teff, method_data0['log_Teff'].values, observed_log_Teff_err)
+        chi2_log_g = chi2_sol(observed_log_g, method_data0['log_g'].values, observed_log_g_err)
+        chi2_log_he = chi2_sol(observed_log_he, method_data0['log_he'].values, observed_log_he_err)
+        chi2_interp_lower = np.amin(chi2_log_Teff + chi2_log_g + chi2_log_he)
+
+        chi2_interp = (chi2_interp_higher - chi2_interp_lower)*(ratios0+ratios1)/2 + chi2_interp_lower
     chi2_component = chi2_interp
+
     for component in ["log_L", "radius", "star_age"]:
         x0=p0[components.index(component)]
         zero_indices = np.where((method_data[component].iloc[:-1].values-x0) * (method_data[component].iloc[1:].values-x0) <0)[0]
@@ -163,7 +179,7 @@ data_files = 'lei_smooth.dat'
 # 导入模型
 # path_methods = ["/home/zxlei/pfiles/fmq/sdb/data_hb", "/home/zxlei/pfiles/fmq/sdb/data_wd"]
 # method_data = load_method(path_methods, 'all_data.csv')
-all_method_data = pd.read_csv('/home/fmq/MESA/work/my/MCMC/code/all_data.csv')
+all_method_data = pd.read_csv('/home/fmq/MESA/work/my/MCMC/code/test_data.csv')
 
 # observed_data = load_test()
 # observed_data = pd.read_csv('/home/zxlei/pfiles/fmq/mcmc/test_star.csv').to_dict('records')

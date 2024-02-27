@@ -14,7 +14,7 @@ def plot_corner(observed_data, sample_path, corner_path, ndim, nsteps, nwalkers)
     names = ['core Mass', 'env mass' 'log_L', 'radius', 'age']
     labels = ['core_mass', 'env_mass', 'log_L', 'radius', 'age']
     # samples_gd = MCSamples(samples=samples, names=names, labels=labels)
-    samples_gd = getdist.MCSamples(samples=samples, names=names, labels=labels)
+    # samples_gd = getdist.MCSamples(samples=samples, names=names, labels=labels)
     fig = corner.corner(samples, labels=labels,  sharex=True, sharey=True,show_titles=True) 
     #truths=[observed_data['mass_true'], observed_data['log_L_true'], observed_data['radius_true'],observed_data['age_true']])
     axes = np.array(fig.axes).reshape((ndim, ndim))
@@ -26,7 +26,7 @@ def plot_chain(observed_data, sample_path, chian_path, ndim, nsteps, nwalkers):
     star_name = observed_data['star_name']
     samples_chain = np.load(f'{sample_path}/sample_{star_name}.npy')
     # samples_chain = np.load(f'./samples_chain/samples_chain_{nwalkers}_{nsteps}.npy')
-    ig, axes = plt.subplots(4, figsize=(10, 7), sharex=True)
+    ig, axes = plt.subplots(5, figsize=(10, 7), sharex=True)
     labels = ['core_mass', 'env_mass', 'log_L', 'radius', 'age']
     for i in range(ndim):
         ax = axes[i]
