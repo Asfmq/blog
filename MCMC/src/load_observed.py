@@ -114,6 +114,6 @@ def load_test(all_data):
             'radius_true': df["radius"].iloc[random_index],
             'age_true': df["star_age"].iloc[random_index]
         })
-    data_list = pd.DataFrame(data_list)
-    data_list.to_csv('test_star.csv', index=False)
+    # data_list = pd.DataFrame(data_list)
+    # data_list.to_csv('test_star.csv', index=False)
     return data_list

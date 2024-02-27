@@ -168,24 +168,25 @@ def main():
         # break
 
 
-sample_path = './sample/sample_smooth_lei'
-corner_path = './corner/corner_smooth_lei'
-chian_path = './chain/chain_smooth_lei'
+sample_path = './sample/sample_test'
+corner_path = './corner/corner_test'
+chian_path = './chain/chain_test'
 os.makedirs(sample_path, exist_ok=True)
 os.makedirs(corner_path, exist_ok=True)
 os.makedirs(chian_path, exist_ok=True)
-data_files = 'lei_smooth.dat'
+data_files = 'test.dat'
 
 # 导入模型
 # path_methods = ["/home/zxlei/pfiles/fmq/sdb/data_hb", "/home/zxlei/pfiles/fmq/sdb/data_wd"]
 # method_data = load_method(path_methods, 'all_data.csv')
-all_method_data = pd.read_csv('/home/fmq/MESA/work/my/MCMC/code/test_data.csv')
-
+all_method_data = pd.read_csv('/home/fmq/MESA/work/my/MCMC/code/sd_data.csv')
+all_data = pd.read_csv('/home/fmq/MESA/work/my/MCMC/code/data.csv')
 # observed_data = load_test()
 # observed_data = pd.read_csv('/home/zxlei/pfiles/fmq/mcmc/test_star.csv').to_dict('records')
 # observed_data = load_test(method_data)
-observed_data = load_lei()
-
+observed_data = load_test(all_data)
+# print(observed_data)
+# observed_data = observed_data.to_dict()
 nwalkers = 128
 ndim = 5
 nsteps = 100
