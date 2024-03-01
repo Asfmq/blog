@@ -48,11 +48,11 @@ def load_culpan():
             return None
 
         # 处理缺失的错误值
-        if Teff_err == -10**3:
+        if Teff_err == -10**3 or Teff_err == 0:
             Teff_err = 0.02
-        if logg_err == -10**3:
+        if logg_err == -10**3 or logg_err == 0:
             logg_err = 0.1
-        if loghe_err == -10**3:
+        if loghe_err == -10**3 or loghe_err == 0:
             loghe_err = 0.1
 
         # 返回处理后的数据

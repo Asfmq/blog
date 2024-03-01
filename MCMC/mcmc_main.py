@@ -143,9 +143,9 @@ def MCMC(observed_data, method_data):
 
 
 def main():
-    # index = next(i for i, data in enumerate(observed_data) if data['star_name'] == 'star8')
+    index = next(i for i, data in enumerate(observed_data) if data['star_name'] == 'star50')
     for star_index, observed_data_star in enumerate(observed_data):
-        # if star_index <=index:continue
+        if star_index <=index:continue
         print(star_index)
         print(observed_data_star)
         # nerr =10
@@ -175,7 +175,7 @@ data_files = 'test.dat'
 # 导入模型
 # path_methods = ["/home/zxlei/pfiles/fmq/sdb/data_hb", "/home/zxlei/pfiles/fmq/sdb/data_wd"]
 # method_data = load_method(path_methods, 'all_data.csv')
-all_method_data = pd.read_csv('/home/fmq/MESA/work/my/MCMC/code/all_sd_data.csv')
+all_method_data = pd.read_csv('/home/fmq/MESA/work/my/MCMC/code/all_sd_data_select.csv')
 # all_data = pd.read_csv('/home/fmq/MESA/work/my/MCMC/code/data.csv')
 # observed_data = load_test()
 # observed_data = pd.read_csv('/home/zxlei/pfiles/fmq/mcmc/test_star.csv').to_dict('records')
