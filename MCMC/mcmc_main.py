@@ -117,11 +117,16 @@ def log_probability(p0, method_data, observed_log_Teff, observed_log_Teff_err, o
 
 def MCMC(observed_data, method_data):
     # 初始化步行者的起始位置
-    initial_guess = [0.45, 0.001, 1.1, 0.10, 1e7]
-    step = [0.1, 0.001, 0.5, 0.20, 1e7]
-    # step = [1e-2,1e-1,1e-2,0.1]
-    p0 = initial_guess + step * np.random.rand(nwalkers, ndim)
+    # initial_guess = [0.45, 0.001, 1.1, 0.10, 1e7]
+    # step = [0.1, 0.001, 0.5, 0.20, 1e7]
+    # # step = [1e-2,1e-1,1e-2,0.1]
+    # p0 = initial_guess + step * np.random.rand(nwalkers, ndim)
     # p0 =  np.random.randn(nwalkers, ndim) * [np.std(method_data['star_mass']), np.std(method_data['log_L']), np.std(method_data['radius']), np.std(method_data['star_age'])] + [np.mean(method_data['star_mass']), np.mean(method_data['log_L']), np.mean(method_data['radius']), np.mean(method_data['star_age'])]
+    p0_max = [np.max(method_data['core_mass']), np.max(method_data['env_mass']), np.max(method_data['log_L']), np.max(method_data['radius']), np.max(method_data['star_age'])]
+    p0_min = [np.min(method_data['core_mass']), np.min(method_data['env_mass']), np.min(method_data['log_L']), np.min(method_data['radius']), np.min(method_data['star_age'])]
+    p0_range = list(np.array(p0_max) - np.array(p0_min))
+    p0 = p0_min + p0_range * np.random.rand(nwalkers, ndim)
+    
 
     # 创建MCMC采样器并运行
     pool_if = 1
@@ -143,21 +148,20 @@ def MCMC(observed_data, method_data):
 
 
 def main():
-    index = next(i for i, data in enumerate(observed_data) if data['star_name'] == 'star50')
+    # index = next(i for i, data in enumerate(observed_data) if data['star_name'] == 'star86')
     for star_index, observed_data_star in enumerate(observed_data):
-        if star_index <=index:continue
+        # if star_index <=index:continue
         print(star_index)
         print(observed_data_star)
-        # nerr =10
-        # method_data = all_method_data[
-        #     (observed_data_star['log_Teff'] - nerr*observed_data_star['log_Teff_err']  < all_method_data['log_Teff']) & 
-        #     (all_method_data['log_Teff'] < observed_data_star['log_Teff'] + nerr*observed_data_star['log_Teff_err']) &
-        #     (observed_data_star['log_g']-nerr*observed_data_star['log_g_err'] < all_method_data['log_g']) & 
-        #     (all_method_data['log_g'] < observed_data_star['log_g'] + nerr*observed_data_star['log_g_err']) &
-        #     (observed_data_star['log_he'] - nerr*observed_data_star['log_he_err'] < all_method_data['log_he']) & 
-        #     (all_method_data['log_he'] < observed_data_star['log_he'] + nerr*observed_data_star['log_he_err'])
-        # ]
-        MCMC(observed_data_star, all_method_data)
+        method_data = all_method_data[
+            (observed_data_star['log_Teff'] - 0.1  < all_method_data['log_Teff']) & 
+            (all_method_data['log_Teff'] < observed_data_star['log_Teff'] + 0.1) &
+            (observed_data_star['log_g']-1 < all_method_data['log_g']) & 
+            (all_method_data['log_g'] < observed_data_star['log_g'] + 1) #&
+            # (observed_data_star['log_he'] - nerr*observed_data_star['log_he_err'] < all_method_data['log_he']) & 
+            # (all_method_data['log_he'] < observed_data_star['log_he'] + nerr*observed_data_star['log_he_err'])
+        ]
+        MCMC(observed_data_star, method_data)
         plot_corner(observed_data_star, sample_path, corner_path, ndim, nsteps, nwalkers)
         plot_chain(observed_data_star, sample_path, chian_path, ndim, nsteps, nwalkers)
         save_dat(observed_data_star, sample_path, data_files, ndim, nsteps, nwalkers)
@@ -175,12 +179,12 @@ data_files = 'test.dat'
 # 导入模型
 # path_methods = ["/home/zxlei/pfiles/fmq/sdb/data_hb", "/home/zxlei/pfiles/fmq/sdb/data_wd"]
 # method_data = load_method(path_methods, 'all_data.csv')
-all_method_data = pd.read_csv('/home/fmq/MESA/work/my/MCMC/code/all_sd_data_select.csv')
+all_method_data = pd.read_csv('/home/fmq/MESA/work/my/MCMC/code/all_data_select.csv')
 # all_data = pd.read_csv('/home/fmq/MESA/work/my/MCMC/code/data.csv')
-# observed_data = load_test()
+observed_data = load_lei()
 # observed_data = pd.read_csv('/home/zxlei/pfiles/fmq/mcmc/test_star.csv').to_dict('records')
-# observed_data = load_test(method_data)
-observed_data = load_test(all_method_data)
+
+# observed_data = load_test(all_method_data)
 # print(observed_data)
 # observed_data = observed_data.to_dict()
 nwalkers = 128
