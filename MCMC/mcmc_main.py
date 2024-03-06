@@ -125,6 +125,8 @@ def MCMC(observed_data, method_data):
     p0_max = [np.max(method_data['core_mass']), np.max(method_data['env_mass']), np.max(method_data['log_L']), np.max(method_data['radius']), np.max(method_data['star_age'])]
     p0_min = [np.min(method_data['core_mass']), np.min(method_data['env_mass']), np.min(method_data['log_L']), np.min(method_data['radius']), np.min(method_data['star_age'])]
     p0_range = list(np.array(p0_max) - np.array(p0_min))
+    print(p0_min)
+    print(p0_range)
     p0 = p0_min + p0_range * np.random.rand(nwalkers, ndim)
     
 
@@ -156,8 +158,8 @@ def main():
         method_data = all_method_data[
             (observed_data_star['log_Teff'] - 0.1  < all_method_data['log_Teff']) & 
             (all_method_data['log_Teff'] < observed_data_star['log_Teff'] + 0.1) &
-            (observed_data_star['log_g']-1 < all_method_data['log_g']) & 
-            (all_method_data['log_g'] < observed_data_star['log_g'] + 1) #&
+            (observed_data_star['log_g']-0.5 < all_method_data['log_g']) & 
+            (all_method_data['log_g'] < observed_data_star['log_g'] + 0.5) #&
             # (observed_data_star['log_he'] - nerr*observed_data_star['log_he_err'] < all_method_data['log_he']) & 
             # (all_method_data['log_he'] < observed_data_star['log_he'] + nerr*observed_data_star['log_he_err'])
         ]
