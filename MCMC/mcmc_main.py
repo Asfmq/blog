@@ -118,16 +118,16 @@ def log_probability(p0, method_data, observed_log_Teff, observed_log_Teff_err, o
 def MCMC(observed_data, method_data):
     # 初始化步行者的起始位置
     # initial_guess = [0.45, 0.001, 1.1, 0.10, 1e7]
-    # step = [0.1, 0.001, 0.5, 0.20, 1e7]
+    step = [0.1, 0.001, 0.5, 0.20, 1e7]
     # # step = [1e-2,1e-1,1e-2,0.1]
     # p0 = initial_guess + step * np.random.rand(nwalkers, ndim)
     # p0 =  np.random.randn(nwalkers, ndim) * [np.std(method_data['star_mass']), np.std(method_data['log_L']), np.std(method_data['radius']), np.std(method_data['star_age'])] + [np.mean(method_data['star_mass']), np.mean(method_data['log_L']), np.mean(method_data['radius']), np.mean(method_data['star_age'])]
     p0_max = [np.max(method_data['core_mass']), np.max(method_data['env_mass']), np.max(method_data['log_L']), np.max(method_data['radius']), np.max(method_data['star_age'])]
     p0_min = [np.min(method_data['core_mass']), np.min(method_data['env_mass']), np.min(method_data['log_L']), np.min(method_data['radius']), np.min(method_data['star_age'])]
+    p0_mean = list((np.array(p0_max) + np.array(p0_min))/2)
     p0_range = list(np.array(p0_max) - np.array(p0_min))
-    print(p0_min)
-    print(p0_range)
-    p0 = p0_min + p0_range * np.random.rand(nwalkers, ndim)
+    # p0 = p0_min + p0_range * np.random.rand(nwalkers, ndim)
+    p0 = p0_mean + step * np.random.randn(nwalkers, ndim)
     
 
     # 创建MCMC采样器并运行

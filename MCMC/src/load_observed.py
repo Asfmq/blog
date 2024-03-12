@@ -97,7 +97,7 @@ def load_fontaine():
     return data_dict
 
 def load_test(all_data):
-    df = all_data
+    df = all_data[all_data['radius']<0.5]
     data_list = []
     for _ in range(100):
         random_index = np.random.randint(0, len(df))
