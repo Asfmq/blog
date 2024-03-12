@@ -155,13 +155,15 @@ def main():
         # if star_index <=index:continue
         print(star_index)
         print(observed_data_star)
+        surface_he = 4*0.98*10.**observed_data_star['log_he']/(1+4*10.**observed_data_star['log_he'])
+        print('surface_he:',surface_he)
         method_data = all_method_data[
             (observed_data_star['log_Teff'] - 0.1  < all_method_data['log_Teff']) & 
             (all_method_data['log_Teff'] < observed_data_star['log_Teff'] + 0.1) &
             (observed_data_star['log_g']-0.5 < all_method_data['log_g']) & 
-            (all_method_data['log_g'] < observed_data_star['log_g'] + 0.5) #&
-            # (observed_data_star['log_he'] - nerr*observed_data_star['log_he_err'] < all_method_data['log_he']) & 
-            # (all_method_data['log_he'] < observed_data_star['log_he'] + nerr*observed_data_star['log_he_err'])
+            (all_method_data['log_g'] < observed_data_star['log_g'] + 0.5) &
+            (surface_he - 0.11 < all_method_data['he']) & 
+            (all_method_data['he'] < surface_he + 0.11)
         ]
         MCMC(observed_data_star, method_data)
         plot_corner(observed_data_star, sample_path, corner_path, ndim, nsteps, nwalkers)
@@ -170,18 +172,18 @@ def main():
         # break
 
 
-sample_path = './sample/sample_test'
-corner_path = './corner/corner_test'
-chian_path = './chain/chain_test'
+sample_path = './sample/sample_lei'
+corner_path = './corner/corner_lei'
+chian_path = './chain/chain_lei'
 os.makedirs(sample_path, exist_ok=True)
 os.makedirs(corner_path, exist_ok=True)
 os.makedirs(chian_path, exist_ok=True)
-data_files = 'test.dat'
+data_files = 'lei.dat'
 
 # 导入模型
 # path_methods = ["/home/zxlei/pfiles/fmq/sdb/data_hb", "/home/zxlei/pfiles/fmq/sdb/data_wd"]
 # method_data = load_method(path_methods, 'all_data.csv')
-all_method_data = pd.read_csv('/home/fmq/MESA/work/my/MCMC/code/all_data_select.csv')
+all_method_data = pd.read_csv('/home/fmq/MESA/work/my/MCMC/code/all_sd_data_select.csv')
 # all_data = pd.read_csv('/home/fmq/MESA/work/my/MCMC/code/data.csv')
 observed_data = load_lei()
 # observed_data = pd.read_csv('/home/zxlei/pfiles/fmq/mcmc/test_star.csv').to_dict('records')

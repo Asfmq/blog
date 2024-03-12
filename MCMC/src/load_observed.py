@@ -97,23 +97,28 @@ def load_fontaine():
     return data_dict
 
 def load_test(all_data):
-    df = all_data[all_data['radius']<0.5]
+    bins = np.arange(0.35, 0.95, 0.05)  # 定义区间
+    all_data['bins'] = pd.cut(all_data['star_mass'], bins)  # 将star_mass列分为指定的区间
+
     data_list = []
-    for _ in range(100):
-        random_index = np.random.randint(0, len(df))
-        data_list.append({
-            'star_name': f'star{len(data_list)}',
-            'log_Teff': df["log_Teff"].iloc[random_index],
-            'log_Teff_err': 0.013,
-            'log_g': df["log_g"].iloc[random_index],
-            'log_g_err': 0.1,
-            'log_he': df["log_he"].iloc[random_index],
-            'log_he_err': 0.1,
-            'mass_true': df["star_mass"].iloc[random_index],
-            'log_L_true': df["log_L"].iloc[random_index],
-            'radius_true': df["radius"].iloc[random_index],
-            'age_true': df["star_age"].iloc[random_index]
-        })
+    for bin in bins[:-1]:  # 遍历每个区间
+        df_bin = all_data[(all_data['mass'] > bin) & (all_data['mass'] < bin + 0.05)]
+
+        random_index = np.random.choice(df_bin.index, 10, replace=False)  # 随机选择10个数据
+        for index in random_index:
+            data_list.append({
+                'star_name': f'star{len(data_list)}',
+                'log_Teff': df_bin["log_Teff"].loc[index],
+                'log_Teff_err': 0.013,
+                'log_g': df_bin["log_g"].loc[index],
+                'log_g_err': 0.1,
+                'log_he': df_bin["log_he"].loc[index],
+                'log_he_err': 0.1,
+                'mass_true': df_bin["star_mass"].loc[index],
+                'log_L_true': df_bin["log_L"].loc[index],
+                'radius_true': df_bin["radius"].loc[index],
+                'age_true': df_bin["star_age"].loc[index]
+            })
     # data_list = pd.DataFrame(data_list)
     # data_list.to_csv('test_star.csv', index=False)
     return data_list
